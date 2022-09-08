@@ -16,13 +16,14 @@ void movimentaQuadrado();
 
 GLfloat rfx, rfy, sx, sy, angle, tx;
 bool increasing;
+int tamX = 500, tamY = 300, volta=0;
 
 int main(int argc, char **argv)
 {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
-    glutInitWindowPosition(200, 0); // posição da janela
-    glutInitWindowSize(400, 300);   // largura e altura da janela
+    glutInitWindowPosition(500, 0); // posição da janela
+    glutInitWindowSize(tamX, tamY); // largura e altura da janela
     glutCreateWindow("Quadrado");   // cria a janela
 
     init();                   // executa função de inicialização
@@ -38,7 +39,7 @@ int init(void)
     glClearColor(1.0, 1.0, 1.0, 0.0); // define a cor de fundo
 
     glMatrixMode(GL_PROJECTION); // carrega a matriz de projeção
-    gluOrtho2D(0, 200, 0, 150);  // define projeção ortogonal 2D que
+    gluOrtho2D(0, tamX/2, 0, tamY/2);  // define projeção ortogonal 2D que
                                  // mapeia objetos da coordenada do
                                  // mundo para coordenadas da tela
     rfx = 100;
@@ -76,7 +77,6 @@ void display(void)
 
     glLoadIdentity();
     glTranslatef(rfx, rfy, 0);
-    // scale2D(0.02, 0.02, 3, 1);
     rotate2D(0.5);
     glTranslatef(-rfx, -rfy, 0);
 
@@ -86,6 +86,12 @@ void display(void)
 
 void movimentaQuadrado()
 {
-    tx += 1;
+    if (tx < (tamX/2)-20 && volta == 0)
+        tx += 1;
+    else {
+        volta = 1;
+        tx -= 1;
+        if(tx == 0) volta = 0;
+    }
     glTranslatef(tx, 0, 0);
 }
