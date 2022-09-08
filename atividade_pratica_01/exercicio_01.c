@@ -9,14 +9,11 @@ final da tela, este deve voltar, fazendo o caminho inverso
 
 int init();
 void display();
-// void transformObject();
-void rotate2D(GLfloat rotangle);
 void movimentaQuadrado();
-// void scale2D(GLfloat incx, GLfloat incy, GLfloat maxx, GLfloat minx);
 
 GLfloat rfx, rfy, sx, sy, angle, tx;
 bool increasing;
-int tamX = 500, tamY = 300, volta=0;
+int tamX = 500, tamY = 300, volta=0, tamQuadrado=30;
 
 int main(int argc, char **argv)
 {
@@ -49,14 +46,6 @@ int init(void)
     increasing = true;
 }
 
-void rotate2D(GLfloat rotangle)
-{
-    if (angle >= 360)
-        angle = 0;
-    angle += rotangle;
-    glRotatef(angle, 0, 0, 1);
-}
-
 void display(void)
 {
     glClear(GL_COLOR_BUFFER_BIT);
@@ -67,9 +56,9 @@ void display(void)
     glLoadIdentity();
     movimentaQuadrado();
     glBegin(GL_QUADS);
-    glVertex2f(0, 20);
-    glVertex2f(20, 20);
-    glVertex2f(20, 0);
+    glVertex2f(0, tamQuadrado);
+    glVertex2f(tamQuadrado, tamQuadrado);
+    glVertex2f(tamQuadrado, 0);
     glVertex2f(0, 0);
     glEnd();
 
@@ -77,7 +66,6 @@ void display(void)
 
     glLoadIdentity();
     glTranslatef(rfx, rfy, 0);
-    rotate2D(0.5);
     glTranslatef(-rfx, -rfy, 0);
 
     glutPostRedisplay();
@@ -86,7 +74,7 @@ void display(void)
 
 void movimentaQuadrado()
 {
-    if (tx < (tamX/2)-20 && volta == 0)
+    if (tx < (tamX/2)-tamQuadrado && volta == 0)
         tx += 1;
     else {
         volta = 1;
